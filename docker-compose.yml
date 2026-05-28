@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-spinta}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-spinta}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-spinta}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  spinta:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: ${POSTGRES_USER:-spinta}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-spinta}
+      GUNICORN_WORKERS: ${GUNICORN_WORKERS:-2}
+      SPINTA_CONFIG: /opt/spinta/var/config.yml
+      AUTHLIB_INSECURE_TRANSPORT: "1"
+      NOTICE: ${NOTICE:-}
+    volumes:
+      - ./manifest.csv:/opt/spinta/manifest.csv:ro
+      - ./templates:/opt/spinta/templates:ro
+      - ./data/config:/opt/spinta/config
+      - ./data/var:/opt/spinta/var
+      - ./data/logs:/opt/spinta/logs
+    ports:
+      - "${SPINTA_PORT:-8000}:8000"
+    restart: unless-stopped

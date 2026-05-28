@@ -1,0 +1,25 @@
+config_path: /opt/spinta/config
+default_auth_client: default
+env: production
+manifest: default
+
+keymaps:
+  default:
+    type: sqlalchemy
+    dsn: sqlite:////opt/spinta/var/keymap.db
+
+backends:
+  default:
+    type: postgresql
+    dsn: postgresql://POSTGRES_DSN_PLACEHOLDER
+
+manifests:
+  default:
+    type: tabular
+    path: /opt/spinta/manifest.csv
+    backend: default
+    mode: internal
+
+accesslog:
+  type: file
+  file: /opt/spinta/logs/access.log

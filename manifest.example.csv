@@ -1,0 +1,5 @@
+id,dataset,resource,base,model,property,type,ref,source,prepare,level,access,uri,title,description
+1,datasets/org/example/dataset,,,,,,,,,,,,"Example","Example dataset description"
+2,,,,Example,,,id,,,,,,"Example","An example model"
+3,,,,,id,integer,,,,,open,,"ID","Unique identifier"
+4,,,,,name,string,,,,,open,,"Name","Name of the record"
