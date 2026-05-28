@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   spinta:
-    build: .
+    image: ghcr.io/viespirkiu-grupe/saugykladocker:main
     depends_on:
       db:
         condition: service_healthy
