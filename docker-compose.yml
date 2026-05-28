@@ -28,6 +28,7 @@ services:
       SPINTA_CONFIG: /opt/spinta/var/config.yml
       AUTHLIB_INSECURE_TRANSPORT: "1"
       NOTICE: ${NOTICE:-}
+      WRITER_SECRET: ${WRITER_SECRET:?WRITER_SECRET is required}
     volumes:
       - ./manifest.csv:/opt/spinta/manifest.csv:ro
       - ./templates:/opt/spinta/templates:ro

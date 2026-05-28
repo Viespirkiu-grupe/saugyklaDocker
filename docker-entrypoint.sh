@@ -70,7 +70,7 @@ EOF
 
 # Create write client (ignore error if already exists)
 echo "Creating write client..."
-$SPINTA client add -n writer --add-secret --secret writer123 --scope - <<EOF || true
+$SPINTA client add -n writer --add-secret --secret "${WRITER_SECRET:?WRITER_SECRET is required}" --scope - <<EOF || true
 spinta_getone
 spinta_getall
 spinta_search
